@@ -31,7 +31,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle("Q-Bot Alpha");
 		try {
-			base = getDocumentBase();
+			base = getCodeBase();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
