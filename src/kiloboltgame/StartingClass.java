@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.ArrayList;
+import kiloboltgame.framework.Animation;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
@@ -18,10 +19,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Robot robot;
 	private Heliboy hb, hb2;
-	private Image image, character, background, currentSprite, characterDown, characterJump, heliboy;
+	private Image image, character, character2, character3, background, currentSprite, characterDown, characterJump,
+			heliboy, heliboy2, heliboy3, heliboy4, heliboy5;
 	private Graphics second;
 	private URL base;
 	private static Background bg1, bg2;
+	private Animation anim, hanim;
 
 	@Override
 	public void init() {
@@ -38,11 +41,37 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			// TODO: handle exception
 		}
 		character = getImage(base, "data/character.png");
+		character2 = getImage(base, "data/character2.png");
+		character3 = getImage(base, "data/character3.png");
+
 		characterDown = getImage(base, "data/down.png");
 		characterJump = getImage(base, "data/jumped.png");
+
 		heliboy = getImage(base, "data/heliboy.png");
-		currentSprite = character;
+		heliboy2 = getImage(base, "data/heliboy2.png");
+		heliboy3 = getImage(base, "data/heliboy3.png");
+		heliboy4 = getImage(base, "data/heliboy4.png");
+		heliboy5 = getImage(base, "data/heliboy5.png");
+
 		background = getImage(base, "data/background.png");
+
+		anim = new Animation();
+		anim.addFrame(character, 1250);
+		anim.addFrame(character2, 50);
+		anim.addFrame(character3, 50);
+		anim.addFrame(character2, 50);
+
+		hanim = new Animation();
+		hanim.addFrame(heliboy, 100);
+		hanim.addFrame(heliboy2, 100);
+		hanim.addFrame(heliboy3, 100);
+		hanim.addFrame(heliboy4, 100);
+		hanim.addFrame(heliboy5, 100);
+		hanim.addFrame(heliboy4, 100);
+		hanim.addFrame(heliboy3, 100);
+		hanim.addFrame(heliboy2, 100);
+
+		currentSprite = anim.getImage();
 
 	}
 
@@ -75,7 +104,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			if (robot.isJumped()) {
 				currentSprite = characterJump;
 			} else if (robot.isJumped() == false && robot.isDucked() == false) {
-				currentSprite = character;
+				currentSprite = anim.getImage();
 			}
 
 			ArrayList<Projectile> projectiles = robot.getProjectile();
@@ -93,6 +122,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			hb2.Update();
 			bg1.update();
 			bg2.update();
+			animate();
 			repaint();
 
 			try {
@@ -131,8 +161,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 
 		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
-		g.drawImage(heliboy, hb.getCenterX() - 48, hb.getCenterY() - 48, this);
-		g.drawImage(heliboy, hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
+		g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
+		g.drawImage(hanim.getImage(), hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
 	}
 
 	@Override
@@ -166,7 +196,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_CONTROL:
-			if(robot.isJumped() == false && robot.isDucked() == false) {
+			if (robot.isJumped() == false && robot.isDucked() == false) {
 				robot.shoot();
 			}
 			break;
@@ -183,7 +213,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_DOWN:
-			currentSprite = character;
+			currentSprite = anim.getImage();
 			robot.setDucked(false);
 			break;
 
@@ -214,6 +244,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	public static Background getBg2() {
 		return bg2;
+	}
+
+	private void animate() {
+		anim.update(10);
+		hanim.update(50);
 	}
 
 }
