@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
@@ -16,7 +17,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Robot robot;
-	private Image image, character, background, currentSprite, characterDown, characterJump;
+	private Heliboy hb, hb2;
+	private Image image, character, background, currentSprite, characterDown, characterJump, heliboy;
 	private Graphics second;
 	private URL base;
 	private static Background bg1, bg2;
@@ -38,6 +40,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		character = getImage(base, "data/character.png");
 		characterDown = getImage(base, "data/down.png");
 		characterJump = getImage(base, "data/jumped.png");
+		heliboy = getImage(base, "data/heliboy.png");
 		currentSprite = character;
 		background = getImage(base, "data/background.png");
 
@@ -48,6 +51,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
 		robot = new Robot();
+		hb = new Heliboy(340, 360);
+		hb2 = new Heliboy(700, 360);
 
 		Thread thread = new Thread(this);
 		thread.start();
@@ -72,6 +77,20 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			} else if (robot.isJumped() == false && robot.isDucked() == false) {
 				currentSprite = character;
 			}
+
+			ArrayList<Projectile> projectiles = robot.getProjectile();
+			for (int i = 0; i < projectiles.size(); i++) {
+				Projectile p = projectiles.get(i);
+				if (p.isVisible() == true) {
+					p.Update();
+				} else {
+					projectiles.remove(i);
+				}
+
+			}
+
+			hb.Update();
+			hb2.Update();
 			bg1.update();
 			bg2.update();
 			repaint();
@@ -103,7 +122,17 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void paint(Graphics g) {
 		g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
 		g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+
+		ArrayList<Projectile> projectiles = robot.getProjectile();
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = projectiles.get(i);
+			g.setColor(Color.YELLOW);
+			g.fillRect(p.getX(), p.getY(), 10, 5);
+		}
+
 		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
+		g.drawImage(heliboy, hb.getCenterX() - 48, hb.getCenterY() - 48, this);
+		g.drawImage(heliboy, hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
 	}
 
 	@Override
@@ -134,6 +163,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		case KeyEvent.VK_SPACE:
 			robot.jump();
+			break;
+
+		case KeyEvent.VK_CONTROL:
+			if(robot.isJumped() == false && robot.isDucked() == false) {
+				robot.shoot();
+			}
 			break;
 
 		}
