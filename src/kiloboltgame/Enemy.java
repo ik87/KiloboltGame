@@ -8,7 +8,7 @@ public class Enemy {
 	// Behavioral methods
 	public void Update() {
 		centerX += speedX;
-		speedX = bg.getSpeedX();
+		speedX = bg.getSpeedX()*5;
 	}
 
 	public void die() {
