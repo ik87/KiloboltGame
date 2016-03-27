@@ -26,16 +26,20 @@ public class Animation {
 	}
 
 	public synchronized void update(long elapsedTime) {
+
 		if (frames.size() > 1) {
 			animTime += elapsedTime;
-			if (animTime >= totalDuration) {
+			if (animTime == totalDuration) {
 				animTime = animTime % totalDuration;
 				currentFrame = 0;
 			}
+
 			while (animTime > getFrame(currentFrame).endTime) {
 				currentFrame++;
+
 			}
 		}
+
 	}
 
 	public synchronized Image getImage() {
