@@ -90,11 +90,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void start() {
+
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
-
-		// initialize Tiles
-
 
 		try {
 			loadMap("data/map1.txt");
@@ -124,7 +122,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void run() {
 		while (true) {
 			robot.update();
-
 
 			if (robot.isJumped()) {
 				currentSprite = characterJump;
@@ -156,6 +153,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	private void loadMap(String filename) throws IOException {
@@ -163,7 +161,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		int width = 0;
 		int height = 0;
 
-		
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 
 		while (true) {
@@ -174,7 +171,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 			if (!line.startsWith("!")) {
 				lines.add(line);
-				width = Math.max(width, line.length());
+				width = width > line.length() ? width : line.length();
 			}
 		}
 
@@ -182,15 +179,15 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		for (int j = 0; j < height; j++) {
 			String line = lines.get(j);
-			
+
 			for (int i = 0; i < width; i++) {
 				System.out.println(i + "is i");
-				
+
 				if (i < line.length()) {
 					char ch = line.charAt(i);
-					Tile t = new Tile (i, j, Character.getNumericValue(ch));
+					Tile t = new Tile(i, j, Character.getNumericValue(ch));
 					tileArray.add(t);
-					
+
 				}
 			}
 		}
@@ -318,7 +315,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 
 	private void updateTiles() {
-		for (int i = 0; i < tileArray.size(); i++) {
+		int f = tileArray.size();
+		for (int i = 0; i < f; i++) {
 			Tile t = tileArray.get(i);
 			t.update();
 		}
