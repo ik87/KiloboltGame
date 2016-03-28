@@ -125,6 +125,14 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		while (true) {
 			robot.update();
 
+<<<<<<< HEAD
+=======
+			try {
+				loadMap("data/map1.txt");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+>>>>>>> 7762992e04e2b5a443cf2ac4b006dc80247ca3e4
 
 			if (robot.isJumped()) {
 				currentSprite = characterJump;

@@ -31,6 +31,18 @@ public class Tile {
         else if (type == 2) {
         	tileImage = StartingClass.tilegrassBot;
         }
+        else if (type == 8) {
+        	tileImage = StartingClass.tilegrassTop;
+        }
+        else if (type == 4) {
+        	tileImage = StartingClass.tilegrassLeft;
+        }
+        else if (type == 6) {
+        	tileImage = StartingClass.tilegrassRight;
+        }
+        else if (type == 2) {
+        	tileImage = StartingClass.tilegrassBot;
+        }
 
     }
 
