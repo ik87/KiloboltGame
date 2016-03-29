@@ -1,89 +1,89 @@
 package kiloboltgame;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 public class Tile {
 
-    private int tileX, tileY, speedX, type;
-    public Image tileImage;
+	private int tileX, tileY, speedX, type;
+	public Image tileImage;
+	private Rectangle r;
 
-    private Background bg = StartingClass.getBg1();
+	private Robot robot = StartingClass.getRobot();
+	private Background bg = StartingClass.getBg1();
 
-    public Tile(int x, int y, int typeInt) {
-        tileX = x * 40;
-        tileY = y * 40;
+	public Tile(int x, int y, int typeInt) {
+		tileX = x * 40;
+		tileY = y * 40;
+		r = new Rectangle();
+		type = typeInt;
 
-        type = typeInt;
+		if (type == 5) {
+			tileImage = StartingClass.tiledirt;
 
-        if (type == 5) {
-            tileImage = StartingClass.tiledirt;
-            
-        }
-        else if (type == 8) {
-        	tileImage = StartingClass.tilegrassTop;
-        }
-        else if (type == 4) {
-        	tileImage = StartingClass.tilegrassLeft;
-        }
-        else if (type == 6) {
-        	tileImage = StartingClass.tilegrassRight;
-        }
-        else if (type == 2) {
-        	tileImage = StartingClass.tilegrassBot;
-        }
-        else if (type == 8) {
-        	tileImage = StartingClass.tilegrassTop;
-        }
-        else if (type == 4) {
-        	tileImage = StartingClass.tilegrassLeft;
-        }
-        else if (type == 6) {
-        	tileImage = StartingClass.tilegrassRight;
-        }
-        else if (type == 2) {
-        	tileImage = StartingClass.tilegrassBot;
-        }
+		} else if (type == 8) {
+			tileImage = StartingClass.tilegrassTop;
+		} else if (type == 4) {
+			tileImage = StartingClass.tilegrassLeft;
+		} else if (type == 6) {
+			tileImage = StartingClass.tilegrassRight;
+		} else if (type == 2) {
+			tileImage = StartingClass.tilegrassBot;
+		} else if (type == 8) {
+			tileImage = StartingClass.tilegrassTop;
+		} else if (type == 4) {
+			tileImage = StartingClass.tilegrassLeft;
+		} else if (type == 6) {
+			tileImage = StartingClass.tilegrassRight;
+		} else if (type == 2) {
+			tileImage = StartingClass.tilegrassBot;
+		} else {
+			type = 0;
+		}
 
-    }
+	}
 
-    public void update() {
-        // TODO Auto-generated method stub
-/*        if (type == 1) {
-            if (bg.getSpeedX() == 0){
-                speedX = -1;
-            }else{
-                speedX = -2;
-            }
+	public void update() {
+		speedX = bg.getSpeedX() * 5;
+		tileX += speedX;
 
-        } else {*/
-            speedX = bg.getSpeedX()*5;
-        //}
+		r.setBounds(tileX, tileY, 40, 40);
+		if ( r.intersects(Robot.yellowRed) && type != 0) {
+			checkVerticalCollision(Robot.rect, Robot.rect2);
+			checkVerticalCollision(Robot.rect3, Robot.rect4, Robot.footleft, Robot.footright);
+		}
+	}
 
-        tileX += speedX;
-    }
+	public int getTileX() {
+		return tileX;
+	}
 
-    public int getTileX() {
-        return tileX;
-    }
+	public void setTileX(int tileX) {
+		this.tileX = tileX;
+	}
 
-    public void setTileX(int tileX) {
-        this.tileX = tileX;
-    }
+	public int getTileY() {
+		return tileY;
+	}
 
-    public int getTileY() {
-        return tileY;
-    }
+	public void setTileY(int tileY) {
+		this.tileY = tileY;
+	}
 
-    public void setTileY(int tileY) {
-        this.tileY = tileY;
-    }
+	public Image getTileImage() {
+		return tileImage;
+	}
 
-    public Image getTileImage() {
-        return tileImage;
-    }
+	public void setTileImage(Image tileImage) {
+		this.tileImage = tileImage;
+	}
 
-    public void setTileImage(Image tileImage) {
-        this.tileImage = tileImage;
-    }
-
+	public void checkVerticalCollision(Rectangle rtop, Rectangle rbot) {
+		if (rtop.intersects(r)) {
+			System.out.println("Upper collision");
+		}
+		if (rbot.intersects(r)) {
+			System.out.println("lower collision");
+		}
+	}
 }

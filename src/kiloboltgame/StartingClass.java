@@ -21,7 +21,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Robot robot;
+	private static Robot robot;
 	private Heliboy hb, hb2;
 	private Image image, character, character2, character3, background, currentSprite, characterDown, characterJump,
 			heliboy, heliboy2, heliboy3, heliboy4, heliboy5;
@@ -93,6 +93,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
+		robot = new Robot();
 
 		try {
 			loadMap("data/map1.txt");
@@ -100,7 +101,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			e.printStackTrace();
 		}
 
-		robot = new Robot();
 		hb = new Heliboy(340, 360);
 		hb2 = new Heliboy(700, 360);
 
@@ -221,11 +221,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			g.setColor(Color.YELLOW);
 			g.fillRect(p.getX(), p.getY(), 10, 5);
 		}
-
+		g.drawRect((int)Robot.rect.getX(), (int)Robot.rect.getY(), (int)Robot.rect.getWidth(), (int)Robot.rect.getHeight());
+		g.drawRect((int)Robot.rect2.getX(), (int)Robot.rect2.getY(), (int)Robot.rect2.getWidth(), (int)Robot.rect2.getHeight());
 		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
+		
 		g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
 		g.drawImage(hanim.getImage(), hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
-
+		
 	}
 
 	@Override
@@ -261,6 +263,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		case KeyEvent.VK_CONTROL:
 			if (robot.isJumped() == false && robot.isDucked() == false) {
 				robot.shoot();
+				robot.setReadyToFire(false);
 			}
 			break;
 
@@ -290,6 +293,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		case KeyEvent.VK_SPACE:
 			break;
+		case KeyEvent.VK_CONTROL:
+			robot.setReadyToFire(true);
+			break;
 
 		}
 
@@ -307,6 +313,10 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	public static Background getBg2() {
 		return bg2;
+	}
+
+	public static Robot getRobot() {
+		return robot;
 	}
 
 	private void animate() {
