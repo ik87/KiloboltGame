@@ -48,10 +48,11 @@ public class Tile {
 		tileX += speedX;
 
 		r.setBounds(tileX, tileY, 40, 40);
-		if ( r.intersects(Robot.yellowRed) && type != 0) {
+		if (r.intersects(Robot.yellowRed) && type != 0) {
 			checkVerticalCollision(Robot.rect, Robot.rect2);
-			checkVerticalCollision(Robot.rect3, Robot.rect4, Robot.footleft, Robot.footright);
+			checkVerticalCollision(Robot.rect3, Robot.rect4, Robot.footleft, Robot.fooright);
 		}
+
 	}
 
 	public int getTileX() {
@@ -79,11 +80,38 @@ public class Tile {
 	}
 
 	public void checkVerticalCollision(Rectangle rtop, Rectangle rbot) {
+
 		if (rtop.intersects(r)) {
-			System.out.println("Upper collision");
+
 		}
-		if (rbot.intersects(r)) {
-			System.out.println("lower collision");
+
+		if (rbot.intersects(r) && type == 8) { // if robot crossed the ground
+												// tile, r the reacting
+												// rectangle
+			robot.setJumped(false);
+			robot.setSpeedY(0);
+			robot.setCenterY(tileY - 63);
+
 		}
 	}
+
+	// rect3 //rect4
+	private void checkVerticalCollision(Rectangle rleft, Rectangle rright, Rectangle leftfoot, Rectangle rightfoo) {
+		if (type != 5 && type != 2 && type != 0) {
+			if (rleft.intersects(r)) {
+				robot.setCenterX(tileX + (int)rleft.getCenterX());
+				robot.setSpeedX(0);
+			} else if (leftfoot.intersects(r)) {
+				robot.setCenterX(tileX + 85);
+				robot.setSpeedX(0);
+			}else if (rright.intersects(r)) {
+				robot.setCenterX(tileX - 62);
+				robot.setSpeedX(0);
+			} else if (rightfoo.intersects(r)) {
+				robot.setCenterX(tileX - 45);
+				robot.setSpeedX(0);
+			}
+		}
+	}
+
 }

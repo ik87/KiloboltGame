@@ -223,6 +223,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 		g.drawRect((int)Robot.rect.getX(), (int)Robot.rect.getY(), (int)Robot.rect.getWidth(), (int)Robot.rect.getHeight());
 		g.drawRect((int)Robot.rect2.getX(), (int)Robot.rect2.getY(), (int)Robot.rect2.getWidth(), (int)Robot.rect2.getHeight());
+		g.drawRect((int)Robot.yellowRed.getX(), (int)Robot.yellowRed.getY(), (int)Robot.yellowRed.getWidth(), (int)Robot.yellowRed.getHeight());
+		g.drawRect((int)Robot.rect3.getX(), (int)Robot.rect3.getY(), (int)Robot.rect3.getWidth(), (int)Robot.rect3.getHeight());
+		g.drawRect((int)Robot.rect4.getX(), (int)Robot.rect4.getY(), (int)Robot.rect4.getWidth(), (int)Robot.rect4.getHeight());
+		g.drawRect((int)Robot.footleft.getX(), (int)Robot.footleft.getY(), (int)Robot.footleft.getWidth(), (int)Robot.footleft.getHeight());
+		g.drawRect((int)Robot.fooright.getX(), (int)Robot.fooright.getY(), (int)Robot.fooright.getWidth(), (int)Robot.fooright.getHeight());
 		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
 		
 		g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
