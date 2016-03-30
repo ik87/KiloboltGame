@@ -2,6 +2,7 @@ package kiloboltgame;
 
 import java.applet.Applet;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -22,7 +23,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static Robot robot;
-	private Heliboy hb, hb2;
+	public static Heliboy hb, hb2;
 	private Image image, character, character2, character3, background, currentSprite, characterDown, characterJump,
 			heliboy, heliboy2, heliboy3, heliboy4, heliboy5;
 	private Graphics second;
@@ -30,7 +31,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private static Background bg1, bg2;
 	private Animation anim, hanim;
 	static Image tiledirt, tilegrassTop, tilegrassBot, tilegrassLeft, tilegrassRight;
-
+	public static int score = 0;
+	private Font font = new Font(null, Font.BOLD, 30);
 	private ArrayList<Tile> tileArray = new ArrayList<Tile>();
 
 	@Override
@@ -221,18 +223,35 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			g.setColor(Color.YELLOW);
 			g.fillRect(p.getX(), p.getY(), 10, 5);
 		}
-		g.drawRect((int)Robot.rect.getX(), (int)Robot.rect.getY(), (int)Robot.rect.getWidth(), (int)Robot.rect.getHeight());
-		g.drawRect((int)Robot.rect2.getX(), (int)Robot.rect2.getY(), (int)Robot.rect2.getWidth(), (int)Robot.rect2.getHeight());
-		g.drawRect((int)Robot.yellowRed.getX(), (int)Robot.yellowRed.getY(), (int)Robot.yellowRed.getWidth(), (int)Robot.yellowRed.getHeight());
-		g.drawRect((int)Robot.rect3.getX(), (int)Robot.rect3.getY(), (int)Robot.rect3.getWidth(), (int)Robot.rect3.getHeight());
-		g.drawRect((int)Robot.rect4.getX(), (int)Robot.rect4.getY(), (int)Robot.rect4.getWidth(), (int)Robot.rect4.getHeight());
-		g.drawRect((int)Robot.footleft.getX(), (int)Robot.footleft.getY(), (int)Robot.footleft.getWidth(), (int)Robot.footleft.getHeight());
-		g.drawRect((int)Robot.fooright.getX(), (int)Robot.fooright.getY(), (int)Robot.fooright.getWidth(), (int)Robot.fooright.getHeight());
-		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
 		
+		
+		/*
+		g.drawRect((int) Robot.rect.getX(), (int) Robot.rect.getY(), (int) Robot.rect.getWidth(),
+				(int) Robot.rect.getHeight());
+		g.drawRect((int) Robot.rect2.getX(), (int) Robot.rect2.getY(), (int) Robot.rect2.getWidth(),
+				(int) Robot.rect2.getHeight());
+		g.drawRect((int) Robot.yellowRed.getX(), (int) Robot.yellowRed.getY(), (int) Robot.yellowRed.getWidth(),
+				(int) Robot.yellowRed.getHeight());
+		g.drawRect((int) Robot.rect3.getX(), (int) Robot.rect3.getY(), (int) Robot.rect3.getWidth(),
+				(int) Robot.rect3.getHeight());
+		g.drawRect((int) Robot.rect4.getX(), (int) Robot.rect4.getY(), (int) Robot.rect4.getWidth(),
+				(int) Robot.rect4.getHeight());
+		g.drawRect((int) Robot.footleft.getX(), (int) Robot.footleft.getY(), (int) Robot.footleft.getWidth(),
+				(int) Robot.footleft.getHeight());
+		g.drawRect((int) Robot.fooright.getX(), (int) Robot.fooright.getY(), (int) Robot.fooright.getWidth(),
+				(int) Robot.fooright.getHeight()); */
+		
+		
+		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
+
 		g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
 		g.drawImage(hanim.getImage(), hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
 		
+		
+		g.setFont(font);
+		g.setColor(Color.WHITE);
+		g.drawString(Integer.toString(score), 740, 30);
+
 	}
 
 	@Override

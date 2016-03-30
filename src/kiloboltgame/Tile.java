@@ -82,7 +82,7 @@ public class Tile {
 	public void checkVerticalCollision(Rectangle rtop, Rectangle rbot) {
 
 		if (rtop.intersects(r)) {
-
+			
 		}
 
 		if (rbot.intersects(r) && type == 8) { // if robot crossed the ground
@@ -99,7 +99,7 @@ public class Tile {
 	private void checkVerticalCollision(Rectangle rleft, Rectangle rright, Rectangle leftfoot, Rectangle rightfoo) {
 		if (type != 5 && type != 2 && type != 0) {
 			if (rleft.intersects(r)) {
-				robot.setCenterX(tileX + (int)rleft.getCenterX());
+				robot.setCenterX(tileX + 102);
 				robot.setSpeedX(0);
 			} else if (leftfoot.intersects(r)) {
 				robot.setCenterX(tileX + 85);
