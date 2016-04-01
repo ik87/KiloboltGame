@@ -11,8 +11,8 @@ public class Enemy {
 
 	// Behavioral methods
 	public void Update() {
-		centerX += speedX;
 		speedX = bg.getSpeedX() * 5;
+		centerX += speedX;
 		r.setBounds(centerX - 25, centerY - 25, 50, 60);
 
 		if (r.intersects(Robot.yellowRed)) {

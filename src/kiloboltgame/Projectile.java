@@ -25,7 +25,7 @@ public class Projectile {
 			visible = false;
 			r = null;
 		}
-		if (x < 801) {
+		if (x < 800) {
 			checkCollision();
 		}
 	}
