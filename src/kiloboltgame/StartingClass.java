@@ -26,7 +26,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	enum GameState {
 		Runing, Dead
 	}
-	
+
 	GameState state = GameState.Runing;
 
 	private static Robot robot;
@@ -130,39 +130,44 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
-		while (true) {
-			robot.update();
+		if (state == GameState.Runing) {
+			while (true) {
+				robot.update();
 
-			if (robot.isJumped()) {
-				currentSprite = characterJump;
-			} else if (robot.isJumped() == false && robot.isDucked() == false) {
-				currentSprite = anim.getImage();
-			}
+				if (robot.isJumped()) {
+					currentSprite = characterJump;
+				} else if (robot.isJumped() == false && robot.isDucked() == false) {
+					currentSprite = anim.getImage();
+				}
 
-			ArrayList<Projectile> projectiles = robot.getProjectile();
-			for (int i = 0; i < projectiles.size(); i++) {
-				Projectile p = projectiles.get(i);
-				if (p.isVisible() == true) {
-					p.Update();
-				} else {
-					projectiles.remove(i);
+				ArrayList<Projectile> projectiles = robot.getProjectile();
+				for (int i = 0; i < projectiles.size(); i++) {
+					Projectile p = projectiles.get(i);
+					if (p.isVisible() == true) {
+						p.Update();
+					} else {
+						projectiles.remove(i);
+					}
+				}
+				updateTiles();
+				hb.Update();
+				hb2.Update();
+				bg1.update();
+				bg2.update();
+				animate();
+				repaint();
+
+				try {
+					Thread.sleep(17);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				if (robot.getCenterY() > 500) {
+					state = GameState.Dead;
 				}
 			}
-			updateTiles();
-			hb.Update();
-			hb2.Update();
-			bg1.update();
-			bg2.update();
-			animate();
-			repaint();
-
-			try {
-				Thread.sleep(17);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
-
 	}
 
 	private void loadMap(String filename) throws IOException {
@@ -219,44 +224,51 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
-		g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
-		paintTiles(g);
+		if (state == GameState.Runing) {
+			g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
+			g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+			paintTiles(g);
 
-		ArrayList<Projectile> projectiles = robot.getProjectile();
-		for (int i = 0; i < projectiles.size(); i++) {
-			Projectile p = projectiles.get(i);
-			g.setColor(Color.YELLOW);
-			g.fillRect(p.getX(), p.getY(), 10, 5);
+			ArrayList<Projectile> projectiles = robot.getProjectile();
+			for (int i = 0; i < projectiles.size(); i++) {
+				Projectile p = projectiles.get(i);
+				g.setColor(Color.YELLOW);
+				g.fillRect(p.getX(), p.getY(), 10, 5);
+			}
+
+			/*
+			 * g.drawRect((int) Robot.rect.getX(), (int) Robot.rect.getY(),
+			 * (int) Robot.rect.getWidth(), (int) Robot.rect.getHeight());
+			 * g.drawRect((int) Robot.rect2.getX(), (int) Robot.rect2.getY(),
+			 * (int) Robot.rect2.getWidth(), (int) Robot.rect2.getHeight());
+			 * g.drawRect((int) Robot.yellowRed.getX(), (int)
+			 * Robot.yellowRed.getY(), (int) Robot.yellowRed.getWidth(), (int)
+			 * Robot.yellowRed.getHeight()); g.drawRect((int)
+			 * Robot.rect3.getX(), (int) Robot.rect3.getY(), (int)
+			 * Robot.rect3.getWidth(), (int) Robot.rect3.getHeight());
+			 * g.drawRect((int) Robot.rect4.getX(), (int) Robot.rect4.getY(),
+			 * (int) Robot.rect4.getWidth(), (int) Robot.rect4.getHeight());
+			 * g.drawRect((int) Robot.footleft.getX(), (int)
+			 * Robot.footleft.getY(), (int) Robot.footleft.getWidth(), (int)
+			 * Robot.footleft.getHeight()); g.drawRect((int)
+			 * Robot.fooright.getX(), (int) Robot.fooright.getY(), (int)
+			 * Robot.fooright.getWidth(), (int) Robot.fooright.getHeight());
+			 */
+
+			g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
+
+			g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
+			g.drawImage(hanim.getImage(), hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
+
+			g.setFont(font);
+			g.setColor(Color.WHITE);
+			g.drawString(Integer.toString(score), 740, 30);
+		} else if (state == GameState.Dead) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, 800, 480);
+			g.setColor(Color.WHITE);
+			g.drawString("Dead", 360, 240);
 		}
-
-		/*
-		 * g.drawRect((int) Robot.rect.getX(), (int) Robot.rect.getY(), (int)
-		 * Robot.rect.getWidth(), (int) Robot.rect.getHeight());
-		 * g.drawRect((int) Robot.rect2.getX(), (int) Robot.rect2.getY(), (int)
-		 * Robot.rect2.getWidth(), (int) Robot.rect2.getHeight());
-		 * g.drawRect((int) Robot.yellowRed.getX(), (int)
-		 * Robot.yellowRed.getY(), (int) Robot.yellowRed.getWidth(), (int)
-		 * Robot.yellowRed.getHeight()); g.drawRect((int) Robot.rect3.getX(),
-		 * (int) Robot.rect3.getY(), (int) Robot.rect3.getWidth(), (int)
-		 * Robot.rect3.getHeight()); g.drawRect((int) Robot.rect4.getX(), (int)
-		 * Robot.rect4.getY(), (int) Robot.rect4.getWidth(), (int)
-		 * Robot.rect4.getHeight()); g.drawRect((int) Robot.footleft.getX(),
-		 * (int) Robot.footleft.getY(), (int) Robot.footleft.getWidth(), (int)
-		 * Robot.footleft.getHeight()); g.drawRect((int) Robot.fooright.getX(),
-		 * (int) Robot.fooright.getY(), (int) Robot.fooright.getWidth(), (int)
-		 * Robot.fooright.getHeight());
-		 */
-
-		g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
-
-		g.drawImage(hanim.getImage(), hb.getCenterX() - 48, hb.getCenterY() - 48, this);
-		g.drawImage(hanim.getImage(), hb2.getCenterX() - 48, hb2.getCenterY() - 48, this);
-
-		g.setFont(font);
-		g.setColor(Color.WHITE);
-		g.drawString(Integer.toString(score), 740, 30);
-
 	}
 
 	@Override
