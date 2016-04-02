@@ -151,8 +151,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 					}
 				}
 				updateTiles();
-				hb.Update();
-				hb2.Update();
+				hb.update();
+				hb2.update();
 				bg1.update();
 				bg2.update();
 				animate();
