@@ -31,16 +31,16 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	private static Robot robot;
 	public static Heliboy hb, hb2;
+	private static Background bg1, bg2;
+	static Image tiledirt, tilegrassTop, tilegrassBot, tilegrassLeft, tilegrassRight;
+	public static int score = 0;
 	private Image image, character, character2, character3, background, currentSprite, characterDown, characterJump,
 			heliboy, heliboy2, heliboy3, heliboy4, heliboy5;
 	private Graphics second;
 	private URL base;
-	private static Background bg1, bg2;
 	private Animation anim, hanim;
-	static Image tiledirt, tilegrassTop, tilegrassBot, tilegrassLeft, tilegrassRight;
-	public static int score = 0;
 	private Font font = new Font(null, Font.BOLD, 30);
-	private ArrayList<Tile> tileArray = new ArrayList<Tile>();
+	private ArrayList<Tile> tileArray;
 
 	@Override
 	public void init() {
@@ -99,10 +99,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void start() {
-
+		tileArray = new ArrayList<Tile>();
 		bg1 = new Background(0, 0); // set position background 1
 		bg2 = new Background(2160, 0); // set position background 2
 		robot = new Robot();
+		Robot.init();
 
 		try {
 			loadMap("data/map1.txt"); // load file map.txt into buffer
@@ -298,7 +299,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_SPACE:
-			robot.jump();
+			if (state == GameState.Dead) {
+				restart();
+			} else {
+				robot.jump();
+			}
 			break;
 
 		case KeyEvent.VK_CONTROL:
@@ -378,6 +383,19 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			Tile t = (Tile) tileArray.get(i);
 			g.drawImage(t.getTileImage(), t.getTileX(), t.getTileY(), this);
 		}
+	}
+
+	private void restart() {
+		tileArray = null;
+		bg2 = null;
+		bg1 = null;
+		robot = Robot.getNull();
+		hb = null;
+		hb2 = null;
+		score = 0;
+		state = GameState.Runing;
+
+		start();
 	}
 
 }

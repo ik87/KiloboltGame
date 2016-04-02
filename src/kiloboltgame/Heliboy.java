@@ -10,4 +10,5 @@ public class Heliboy extends Enemy {
 		setCenterY(centerY);
 	}
 
+
 }

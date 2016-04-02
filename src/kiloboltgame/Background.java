@@ -40,5 +40,4 @@ public class Background {
 	public void setSpeedX(int speedX) {
 		this.speedX = speedX;
 	}
-
 }
